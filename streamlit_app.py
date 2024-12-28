@@ -1,11 +1,13 @@
 import streamlit as st
 import pandas as pd
-import pickle
+import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-model = pickle.load('trained_model.pkl')
 
+model = joblib.load('trained_model.pkl')
+
+# إعداد الصفحات
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["Upload Data", "Manual Input", "Visualizations"])
 
@@ -50,7 +52,7 @@ elif page == "Manual Input":
 elif page == "Visualizations":
     st.title("Data Visualizations")
 
-
+    # مثال على التصورات
     st.write("Tenure Distribution")
     sns.histplot(df_encoded['tenure'], bins=30)
     st.pyplot(plt)
