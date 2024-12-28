@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
-import joblib
+import pickle
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-model = joblib.load('trained_model.pkl')
+model = pickle.load('trained_model.pkl')
 
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["Upload Data", "Manual Input", "Visualizations"])
