@@ -51,5 +51,9 @@ elif page == "Manual Input":
             'MonthlyCharges': [MonthlyCharges],
             'TotalCharges': [TotalCharges]
         })
+
+        # تأكد من أن الأعمدة تتوافق مع ما يتوقعه النموذج
+        input_data = input_data.astype(float)
+
         prediction = model.predict(input_data)
         st.write("Churn Prediction:", "Yes" if prediction[0] == 1 else "No")
