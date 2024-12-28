@@ -3,9 +3,13 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pickle
+
+with open('model.pkl', 'rb') as file:
+    model = pickle.load(file)
 
 # تحميل النموذج المدرب
-model = joblib.load('trained_model.pkl')
+#model = joblib.load('trained_model.pkl')
 
 # إعداد الصفحات
 st.sidebar.title("Navigation")
