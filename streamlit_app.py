@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
@@ -8,12 +7,8 @@ import pickle
 with open('model.pkl', 'rb') as file:
     model = pickle.load(file)
 
-# تحميل النموذج المدرب
-#model = joblib.load('trained_model.pkl')
-
-# إعداد الصفحات
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Upload Data", "Manual Input"])
+page = st.sidebar.radio("Go to", ["Upload Data", " Input to prediction"])
 
 if page == "Upload Data":
     st.title("Upload and Visualize Data")
@@ -24,7 +19,6 @@ if page == "Upload Data":
         st.write("Data Preview:")
         st.write(data.head())
 
-        # عرض التصورات
         st.write("Tenure Distribution")
         plt.figure(figsize=(10, 6))
         sns.histplot(data['tenure'], bins=30)
@@ -38,10 +32,10 @@ if page == "Upload Data":
 elif page == "Manual Input":
     st.title("Manual Input for Churn Prediction")
 
-    # إدخال القيم يدويًا
+ 
     SeniorCitizen = st.selectbox("Senior Citizen", [0, 1])
     tenure = st.number_input("Tenure", min_value=0, max_value=100, value=1)
-    Contract = st.selectbox("Contract", [0, 1, 2])  # افترض أن القيم المشفرة هي 0, 1, 2
+    Contract = st.selectbox("Contract", [0, 1, 2])  
     PaperlessBilling = st.selectbox("Paperless Billing", [0, 1])
     MonthlyCharges = st.number_input("Monthly Charges", min_value=0.0, max_value=1000.0, value=0.0)
     TotalCharges = st.number_input("Total Charges", min_value=0.0, max_value=10000.0, value=0.0)
@@ -56,7 +50,6 @@ elif page == "Manual Input":
             'TotalCharges': [TotalCharges]
         })
 
-        # تأكد من أن الأعمدة تتوافق مع ما يتوقعه النموذج
         #input_data = input_data.astype(float)
 
         prediction = model.predict(input_data)
