@@ -4,15 +4,15 @@ import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
+# تحميل النموذج المدرب
 model = joblib.load('trained_model.pkl')
 
 # إعداد الصفحات
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Upload Data", "Manual Input", "Visualizations"])
+page = st.sidebar.radio("Go to", ["Upload Data", "Manual Input"])
 
 if page == "Upload Data":
-    st.title("Upload Data for Churn Prediction")
+    st.title("Upload and Visualize Data")
     uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
 
     if uploaded_file is not None:
@@ -20,11 +20,16 @@ if page == "Upload Data":
         st.write("Data Preview:")
         st.write(data.head())
 
-        if st.button("Predict"):
-            predictions = model.predict(data)
-            data['Churn Prediction'] = predictions
-            st.write("Predictions:")
-            st.write(data)
+        # عرض التصورات
+        st.write("Tenure Distribution")
+        plt.figure(figsize=(10, 6))
+        sns.histplot(data['tenure'], bins=30)
+        st.pyplot(plt)
+
+        st.write("Monthly Charges vs Churn")
+        plt.figure(figsize=(10, 6))
+        sns.boxplot(x=data['Churn'], y=data['MonthlyCharges'])
+        st.pyplot(plt)
 
 elif page == "Manual Input":
     st.title("Manual Input for Churn Prediction")
@@ -48,15 +53,3 @@ elif page == "Manual Input":
         })
         prediction = model.predict(input_data)
         st.write("Churn Prediction:", "Yes" if prediction[0] == 1 else "No")
-
-elif page == "Visualizations":
-    st.title("Data Visualizations")
-
-    # مثال على التصورات
-    st.write("Tenure Distribution")
-    sns.histplot(df_encoded['tenure'], bins=30)
-    st.pyplot(plt)
-
-    st.write("Monthly Charges vs Churn")
-    sns.boxplot(x=df_encoded['Churn'], y=df_encoded['MonthlyCharges'])
-    st.pyplot(plt)
